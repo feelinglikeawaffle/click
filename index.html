@@ -52,7 +52,13 @@ const biomes=[
 {name:'CRYSTAL TIDELANDS',title:'Where the earth remembers.',desc:'Old minerals sing in the shallow pools.',sky:'#72b9c5',far:'#477d91',ground:'#356c75',accent:'#a4f1df',unlock:12000,weather:['◇ HIGH TIDE','✧ PRISM RAIN','☀ CLEAR']},
 {name:'EMBER CANOPY',title:'A warm and ancient place.',desc:'Even the shadows glow with a quiet fire.',sky:'#d28c70',far:'#925c58',ground:'#68444b',accent:'#ffd17e',unlock:125000,weather:['♨ WARM WIND','✦ ASH FALL','☀ SUNBURST']},
 {name:'STARFALL GARDEN',title:'A garden between moments.',desc:'Constellations take root here.',sky:'#4b5e88',far:'#344568',ground:'#293c55',accent:'#d4b5ff',unlock:1500000,weather:['✧ STARFALL','☾ DEEP NIGHT','✦ AURORA']},
-{name:'THE FIRST ROOT',title:'The world beneath worlds.',desc:'You can hear every life you have ever grown.',sky:'#374f50',far:'#2d5550',ground:'#203d37',accent:'#d4ed9b',unlock:18000000,weather:['∞ TIME BLOOM','✧ ROOTLIGHT','☼ NEW DAWN']}
+{name:'THE FIRST ROOT',title:'The world beneath worlds.',desc:'You can hear every life you have ever grown.',sky:'#374f50',far:'#2d5550',ground:'#203d37',accent:'#d4ed9b',unlock:18000000,weather:['∞ TIME BLOOM','✧ ROOTLIGHT','☼ NEW DAWN']},
+{name:'THE SUNKEN ARCHIVE',title:'A library beneath the roots.',desc:'Ancient stones keep the memories of vanished forests.',sky:'#648f91',far:'#3d686b',ground:'#315354',accent:'#b6e6c9',unlock:220000000,weather:['≋ LOW FOG','✧ MEMORY RAIN','☾ BLUE HOUR']},
+{name:'FROSTGLASS PEAKS',title:'Where winter learned to sparkle.',desc:'The snow catches light from stars that are not there.',sky:'#a7c7d8',far:'#668ca7',ground:'#476b83',accent:'#e5f7ff',unlock:900000000,weather:['❄ SNOWFALL','◇ ICE HALO','☼ PALE SUN']},
+{name:'NEONBLOOM JUNGLE',title:'A thousand colors after dark.',desc:'Every leaf has its own little pulse of light.',sky:'#554d85',far:'#4b5d70',ground:'#31564e',accent:'#ff9fe3',unlock:4000000000,weather:['✦ POLLEN GLOW','☂ WARM RAIN','⌁ VIVID NIGHT']},
+{name:'THE CLOCKWORK DUNES',title:'A desert that keeps its own time.',desc:'Brass flowers turn slowly toward a hidden sun.',sky:'#d5a96e',far:'#a87855',ground:'#80583f',accent:'#ffe09a',unlock:16000000000,weather:['〰 SAND VEIL','☼ LONG AFTERNOON','✧ GLASS WIND']},
+{name:'CLOUDREEF SANCTUARY',title:'A garden floating above forever.',desc:'Soft islands drift through an ocean of clouds.',sky:'#9abde0',far:'#7898bd',ground:'#557b91',accent:'#e7f4ff',unlock:65000000000,weather:['☁ CLOUD SEA','✧ SKY SPARKS','☼ HIGH SUN']},
+{name:'THE VOID ORCHARD',title:'The last garden, and the first.',desc:'Even the darkness grows something beautiful.',sky:'#252b50',far:'#35345e',ground:'#292844',accent:'#d5b8ff',unlock:260000000000,weather:['∞ QUIET COSMOS','✦ VOID BLOOM','☾ ETERNAL NIGHT']}
 ];
 const upgrades=[
 {id:'hands',tab:'grow',icon:'✋',name:'Gentle hands',desc:'Each tap gathers more essence.',base:12,growth:1.65,max:100,effect:'tap',value:1},
@@ -69,7 +75,7 @@ const upgrades=[
 {id:'heart',tab:'craft',icon:'💠',name:'Worldheart',desc:'A powerful engine of living energy.',base:4200000,growth:2.16,max:25,effect:'rate',value:46000}
 ];
 const creatures=[
-{name:'Dewdrop slime',icon:'🟢',at:100,rate:0.5},{name:'Moss moth',icon:'🦋',at:500,rate:1.4},{name:'Button fox',icon:'🦊',at:1800,rate:3.5},{name:'Glowcap spirit',icon:'🍄',at:8000,rate:9},{name:'Tide sprite',icon:'🧚',at:35000,rate:24},{name:'Ember beetle',icon:'🪲',at:160000,rate:65},{name:'Star hare',icon:'🐇',at:900000,rate:180},{name:'Root guardian',icon:'🦌',at:5000000,rate:520},{name:'World whale',icon:'🐋',at:25000000,rate:1600}
+{name:'Dewdrop slime',icon:'🟢',at:100,rate:0.5},{name:'Moss moth',icon:'🦋',at:500,rate:1.4},{name:'Button fox',icon:'🦊',at:1800,rate:3.5},{name:'Glowcap spirit',icon:'🍄',at:8000,rate:9},{name:'Tide sprite',icon:'🧚',at:35000,rate:24},{name:'Ember beetle',icon:'🪲',at:160000,rate:65},{name:'Star hare',icon:'🐇',at:900000,rate:180},{name:'Root guardian',icon:'🦌',at:5000000,rate:520},{name:'World whale',icon:'🐋',at:25000000,rate:1600},{name:'Archive wisp',icon:'📜',at:80000000,rate:4200},{name:'Frost lynx',icon:'🐈',at:250000000,rate:11000},{name:'Prism gecko',icon:'🦎',at:900000000,rate:29000},{name:'Brass scarab',icon:'🪲',at:3500000000,rate:76000},{name:'Cloud manta',icon:'🪽',at:14000000000,rate:210000},{name:'Void stag',icon:'🦌',at:60000000000,rate:600000}
 ];
 const milestones=[100,500,1500,5000,15000,50000,150000,500000,1500000,5000000,15000000,50000000,150000000,500000000,1500000000];
 let state={essence:0,total:0,allTime:0,resonance:0,level:1,up:{},creatures:[],found:[],logs:[],mult:1,clicks:0,last:Date.now(),pulseAt:0,rebirths:0,tab:'grow',sound:false};
@@ -117,12 +123,39 @@ for(let i=0;i<55;i++){let x=(i*137+Math.sin(phase+i)*14)%w,y=(i*71)%210;ctx.fill
 const sunX=550+Math.sin(phase*.7)*20,sunY=82+Math.cos(phase)*7;ctx.fillStyle=b.accent+'55';ctx.fillRect(sunX-23,sunY-23,46,46);ctx.fillStyle=b.accent;ctx.fillRect(sunX-13,sunY-13,26,26);ctx.fillStyle='#fff8';ctx.fillRect(sunX-8,sunY-8,5,5);
 for(let layer=0;layer<3;layer++){ctx.fillStyle=layer===0?b.far:layer===1?b.ground:'#294f3d';let base=190+layer*42;ctx.beginPath();ctx.moveTo(0,h);ctx.lineTo(0,base);for(let x=0;x<=w;x+=12){let y=base+Math.sin(x*.012+phase*2+layer*3)*14+Math.sin(x*.027+layer)*7;ctx.lineTo(x,y)}ctx.lineTo(w,h);ctx.fill()}
 ctx.fillStyle=b.ground;ctx.fillRect(0,285,w,105);
-const trees=12+Math.min(20,state.level*2);for(let i=0;i<trees;i++){let x=(i*79+24)%w,y=245+(i%3)*20,sz=1+(i%4)*.15;ctx.fillStyle='#342e2a';ctx.fillRect(x-4*sz,y,8*sz,38*sz);ctx.fillStyle=i%2?'#37694b':'#4b8051';ctx.fillRect(x-18*sz,y-22*sz,36*sz,24*sz);ctx.fillRect(x-12*sz,y-34*sz,24*sz,15*sz);ctx.fillStyle=b.accent+'99';ctx.fillRect(x-8*sz,y-25*sz,5*sz,4*sz)}
+// Biome-specific pixel landmarks: each region gets its own readable silhouette and material language.
+const biomeIndex=biomes.indexOf(b);
+if(biomeIndex===0){ // meadow: layered flower patches
+ for(let i=0;i<34;i++){const x=(i*67+19)%w,y=300+(i*29)%82;ctx.fillStyle=i%3?'#b9d77a':'#f2d69a';ctx.fillRect(x,y,3,3);ctx.fillStyle='#315a3d';ctx.fillRect(x+1,y+3,1,5)}
+}else if(biomeIndex===1){ // mushroom hollow: tall caps
+ for(let i=0;i<13;i++){const x=(i*61+27)%w,y=274+(i%3)*20;ctx.fillStyle='#e7b0b8';ctx.fillRect(x-8,y-15,16,7);ctx.fillRect(x-5,y-20,10,6);ctx.fillStyle='#e8d7c1';ctx.fillRect(x-2,y-8,5,14);ctx.fillStyle='#fff0d8';ctx.fillRect(x-4,y-14,3,2)}
+}else if(biomeIndex===2){ // tidelands: pools and crystal shards
+ for(let i=0;i<9;i++){const x=(i*91+20)%w,y=319+(i%3)*18;ctx.fillStyle='#78d4cf88';ctx.fillRect(x-13,y,28,5);ctx.fillStyle='#b8fff0';ctx.fillRect(x,y-20-(i%3)*5,5,20+(i%3)*5);ctx.fillRect(x-5,y-11,4,11)}
+}else if(biomeIndex===3){ // ember canopy: warm rock columns
+ for(let i=0;i<10;i++){const x=(i*87+30)%w,y=278+(i%3)*15;ctx.fillStyle='#563b43';ctx.fillRect(x-7,y-18,15,42);ctx.fillStyle='#b86d54';ctx.fillRect(x-5,y-21,11,6);ctx.fillStyle='#ffd17e';ctx.fillRect(x-2,y-15,3,13)}
+}else if(biomeIndex===4){ // starfall: luminous star stones
+ for(let i=0;i<24;i++){const x=(i*53+15)%w,y=294+(i*31)%75;ctx.fillStyle=i%2?'#d4b5ff':'#9bd9ed';ctx.fillRect(x,y,4,4);ctx.fillRect(x+1,y-3,2,10);ctx.fillRect(x-2,y+1,8,2)}
+}else if(biomeIndex===5){ // first root: ancient root arches
+ for(let i=0;i<7;i++){const x=i*112+35;ctx.fillStyle='#987d56';ctx.fillRect(x,270,8,76);ctx.fillRect(x-13,270,34,7);ctx.fillRect(x-13,270,7,24);ctx.fillRect(x+14,270,7,24);ctx.fillStyle='#c5e79a';ctx.fillRect(x-3,285,3,3)}
+}else if(biomeIndex===6){ // archive: broken pillars and glowing tablets
+ for(let i=0;i<9;i++){const x=(i*89+18)%w,y=266+(i%3)*18;ctx.fillStyle='#547c78';ctx.fillRect(x,y-27,13,54);ctx.fillStyle='#9bc6b0';ctx.fillRect(x-3,y-31,19,6);ctx.fillStyle='#d5f3cf';ctx.fillRect(x+4,y-17,3,20)}
+}else if(biomeIndex===7){ // frost: ice spires and snow banks
+ for(let i=0;i<14;i++){const x=(i*57+12)%w,y=300+(i%3)*17;ctx.fillStyle='#d8f3ff';ctx.fillRect(x,y-25-(i%4)*5,5,27+(i%4)*5);ctx.fillRect(x-4,y-12,4,13);ctx.fillStyle='#8ec4dd';ctx.fillRect(x+5,y-17,3,19)}
+}else if(biomeIndex===8){ // neon jungle: colorful broad leaves
+ for(let i=0;i<26;i++){const x=(i*41+10)%w,y=290+(i*23)%75;ctx.fillStyle=['#ff8ed5','#a6f18e','#8be8ef'][i%3];ctx.fillRect(x,y,10,4);ctx.fillRect(x+3,y-5,4,13);ctx.fillStyle='#27463f';ctx.fillRect(x+4,y+4,2,9)}
+}else if(biomeIndex===9){ // clockwork: brass gears and desert cacti
+ for(let i=0;i<10;i++){const x=(i*79+25)%w,y=310+(i%3)*17;ctx.fillStyle='#c99a52';ctx.fillRect(x-8,y-8,17,17);ctx.fillStyle='#76513b';ctx.fillRect(x-3,y-3,7,7);ctx.fillStyle='#f5d48c';ctx.fillRect(x-1,y-12,3,25);ctx.fillRect(x-12,y-1,25,3)}
+}else if(biomeIndex===10){ // cloudreef: floating cloud shelves and coral
+ for(let i=0;i<12;i++){const x=(i*67+15)%w,y=300+(i%3)*18;ctx.fillStyle='#dceeff';ctx.fillRect(x-12,y,27,7);ctx.fillRect(x-5,y-5,15,6);ctx.fillStyle='#85cbd0';ctx.fillRect(x+1,y+7,4,15);ctx.fillRect(x-5,y+12,4,8)}
+}else{ // void orchard: dark trunks with luminous fruit
+ for(let i=0;i<13;i++){const x=(i*59+20)%w,y=284+(i%3)*17;ctx.fillStyle='#40365d';ctx.fillRect(x-3,y-22,7,37);ctx.fillRect(x-12,y-18,25,5);ctx.fillStyle='#d5b8ff';ctx.fillRect(x-9,y-28,6,6);ctx.fillRect(x+5,y-24,6,6);ctx.fillStyle='#8ce4d1';ctx.fillRect(x-2,y-12,4,4)}
+}
+const trees=12+Math.min(20,state.level*2);for(let i=0;i<trees;i++){let x=(i*79+24)%w,y=245+(i%3)*20,sz=1+(i%4)*.15;ctx.fillStyle='#302c2a';ctx.fillRect(x-5*sz,y,10*sz,39*sz);ctx.fillStyle='#76513d';ctx.fillRect(x-2*sz,y+5*sz,3*sz,27*sz);ctx.fillStyle=i%2?'#285c43':'#376b4b';ctx.fillRect(x-20*sz,y-20*sz,40*sz,25*sz);ctx.fillRect(x-15*sz,y-34*sz,30*sz,18*sz);ctx.fillRect(x-8*sz,y-43*sz,16*sz,12*sz);ctx.fillStyle=b.accent+'99';ctx.fillRect(x-12*sz,y-27*sz,7*sz,5*sz);ctx.fillRect(x+5*sz,y-17*sz,6*sz,4*sz);ctx.fillStyle='#ffffff20';ctx.fillRect(x-14*sz,y-31*sz,5*sz,3*sz)}
 // The central living seed, built from crisp pixel layers.
 const bob=Math.sin(t*.002)*4, cx=360,cy=220+bob,scale=1+Math.min(.7,state.level*.035);
 ctx.fillStyle='#182b2b66';ctx.fillRect(cx-48*scale,cy+35,96*scale,12);
 ctx.fillStyle='#8c6549';ctx.fillRect(cx-24*scale,cy-8,48*scale,42*scale);ctx.fillStyle='#b88858';ctx.fillRect(cx-18*scale,cy-14,36*scale,42*scale);ctx.fillStyle='#d7a76b';ctx.fillRect(cx-9*scale,cy-5,9*scale,15*scale);
-ctx.fillStyle='#477d4e';ctx.fillRect(cx-35*scale,cy-34,70*scale,30*scale);ctx.fillRect(cx-25*scale,cy-47,50*scale,18*scale);ctx.fillRect(cx-12*scale,cy-57,24*scale,15*scale);ctx.fillStyle=b.accent;ctx.fillRect(cx-5*scale,cy-50,10*scale,10*scale);
+ctx.fillStyle='#315f42';ctx.fillRect(cx-37*scale,cy-31,74*scale,28*scale);ctx.fillRect(cx-29*scale,cy-45,58*scale,19*scale);ctx.fillRect(cx-17*scale,cy-57,34*scale,16*scale);ctx.fillStyle='#477d4e';ctx.fillRect(cx-32*scale,cy-36,64*scale,21*scale);ctx.fillRect(cx-24*scale,cy-49,48*scale,16*scale);ctx.fillRect(cx-12*scale,cy-61,24*scale,13*scale);ctx.fillStyle=b.accent;ctx.fillRect(cx-7*scale,cy-54,14*scale,12*scale);ctx.fillStyle='#f5ffd6';ctx.fillRect(cx-4*scale,cy-51,4*scale,4*scale);ctx.fillRect(cx+5*scale,cy-44,3*scale,3*scale);
 ctx.fillStyle='#e9f6bc';ctx.fillRect(cx-4*scale,cy-47,4*scale,4*scale);
 for(let i=0;i<Math.min(10,state.creatures.length);i++){const x=120+(i*97)%490,y=265+Math.sin(t*.001+i*2)*5;ctx.fillStyle=['#e8b2a4','#a7d8b4','#d7c0f0','#f4d78e'][i%4];ctx.fillRect(x,y,7,7);ctx.fillRect(x+3,y-5,5,5);ctx.fillStyle='#263b35';ctx.fillRect(x+4,y-3,2,2)}
 // floating motes
